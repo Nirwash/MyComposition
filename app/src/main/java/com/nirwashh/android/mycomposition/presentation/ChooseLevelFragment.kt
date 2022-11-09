@@ -24,4 +24,13 @@ class ChooseLevelFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    
+    companion object {
+        fun newInstance(): ChooseLevelFragment {
+            val args = Bundle()
+            val fragment = ChooseLevelFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }
