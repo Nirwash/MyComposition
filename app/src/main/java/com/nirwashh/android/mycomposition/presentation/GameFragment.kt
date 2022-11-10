@@ -10,11 +10,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import com.nirwashh.android.mycomposition.R
 import com.nirwashh.android.mycomposition.databinding.FragmentGameBinding
 import com.nirwashh.android.mycomposition.domain.entity.GameResult
-import com.nirwashh.android.mycomposition.domain.entity.GameSettings
 import com.nirwashh.android.mycomposition.domain.entity.Level
 
 
@@ -22,10 +20,11 @@ class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
     private lateinit var level: Level
+    private val viewModelFactory: GameViewModelFactory by lazy {
+        GameViewModelFactory(level, requireActivity().application)
+    }
     private val viewModel: GameViewModel by lazy {
-        ViewModelProvider(
-            this, AndroidViewModelFactory.getInstance(requireActivity().application)
-        )[GameViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
     }
     private val tvOptions by lazy {
         mutableListOf<TextView>().apply {
@@ -48,7 +47,7 @@ class GameFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,7 +56,6 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         setClickListenersToOptions()
-        viewModel.startGame(level)
     }
 
     private fun setClickListenersToOptions() {

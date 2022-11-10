@@ -2,9 +2,9 @@ package com.nirwashh.android.mycomposition.presentation
 
 import android.app.Application
 import android.os.CountDownTimer
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.nirwashh.android.mycomposition.R
 import com.nirwashh.android.mycomposition.data.GameRepositoryImpl
 import com.nirwashh.android.mycomposition.domain.entity.GameResult
@@ -14,15 +14,16 @@ import com.nirwashh.android.mycomposition.domain.entity.Question
 import com.nirwashh.android.mycomposition.domain.usecases.GenerateQuestionUseCase
 import com.nirwashh.android.mycomposition.domain.usecases.GetGameSettingsUseCase
 
-class GameViewModel(application: Application) : AndroidViewModel(application) {
+class GameViewModel(
+    private val level: Level,
+    private val application: Application
+) : ViewModel() {
 
     private lateinit var gameSettings: GameSettings
-    private lateinit var level: Level
     private var timer: CountDownTimer? = null
     private var countOfRightAnswers = 0
     private var countOfQuestions = 0
 
-    private val context = application
     private val repository = GameRepositoryImpl
     private val generateQuestionUseCase = GenerateQuestionUseCase(repository)
     private val getGameSettingsUseCase = GetGameSettingsUseCase(repository)
@@ -59,8 +60,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val gameResult: LiveData<GameResult>
         get() = _gameResult
 
-    fun startGame(level: Level) {
-        getGameSettings(level)
+    init {
+        startGame()
+    }
+
+    private fun startGame() {
+        getGameSettings()
         startTimer()
         generateQuestion()
         updateProgress()
@@ -76,7 +81,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val percent = calculatePercentOfRightAnswers()
         _percentOfRightAnswers.value = percent
         _progressAnswers.value = String.format(
-            context.resources.getString(R.string.text_answer_progress),
+            application.resources.getString(R.string.text_answer_progress),
             countOfRightAnswers,
             gameSettings.minCountOfRightAnswers
         )
@@ -101,8 +106,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _question.value = generateQuestionUseCase(gameSettings.maxSumValue)
     }
 
-    private fun getGameSettings(level: Level) {
-        this.level = level
+    private fun getGameSettings() {
         this.gameSettings = getGameSettingsUseCase(level)
         _minPercentOfRightAnswers.value = gameSettings.minPercentOfRightAnswers
     }
