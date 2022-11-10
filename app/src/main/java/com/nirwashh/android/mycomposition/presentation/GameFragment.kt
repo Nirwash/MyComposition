@@ -36,54 +36,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             tvSum.setOnClickListener {
-                launchGameFinishedFragment(
-                    gameResult = when (level) {
-                        Level.TEST -> GameResult(
-                            true,
-                            0,
-                            0,
-                            GameSettings(
-                                0,
-                                0,
-                                0,
-                                0
-                            )
-                        )
-                        Level.EASY -> GameResult(
-                            true,
-                            1,
-                            0,
-                            GameSettings(
-                                0,
-                                0,
-                                0,
-                                0
-                            )
-                        )
-                        Level.NORMAL -> GameResult(
-                            true,
-                            2,
-                            0,
-                            GameSettings(
-                                0,
-                                0,
-                                0,
-                                0
-                            )
-                        )
-                        Level.HARD -> GameResult(
-                            true,
-                            3,
-                            0,
-                            GameSettings(
-                                0,
-                                0,
-                                0,
-                                0
-                            )
-                        )
-                    }
-                )
+                launchGameFinishedFragment(level)
             }
         }
     }
@@ -94,7 +47,53 @@ class GameFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchGameFinishedFragment(gameResult: GameResult) {
+    private fun launchGameFinishedFragment(level: Level) {
+        val gameResult = when (level) {
+            Level.TEST -> GameResult(
+                true,
+                0,
+                0,
+                GameSettings(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            )
+            Level.EASY -> GameResult(
+                true,
+                1,
+                0,
+                GameSettings(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            )
+            Level.NORMAL -> GameResult(
+                true,
+                2,
+                0,
+                GameSettings(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            )
+            Level.HARD -> GameResult(
+                true,
+                3,
+                0,
+                GameSettings(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            )
+        }
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult))
@@ -103,7 +102,9 @@ class GameFragment : Fragment() {
     }
 
     private fun parseArgs() {
-        level = requireArguments().getSerializable(KEY_LEVEL) as Level
+        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
+            level = it
+        }
     }
 
     companion object {
@@ -111,7 +112,7 @@ class GameFragment : Fragment() {
         const val NAME = "GameFragment"
         fun newInstance(level: Level): GameFragment {
             val args = Bundle()
-            args.putSerializable(KEY_LEVEL, level)
+            args.putParcelable(KEY_LEVEL, level)
             val fragment = GameFragment()
             fragment.arguments = args
             return fragment

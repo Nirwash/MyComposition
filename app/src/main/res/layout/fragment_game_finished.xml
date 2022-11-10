@@ -67,4 +67,12 @@
         app:layout_constraintStart_toStartOf="@id/tvRequiredAnswers"
         app:layout_constraintTop_toBottomOf="@id/tvRequiredPercentage"/>
 
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal_margin"
+        android:text="@string/try_again"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
