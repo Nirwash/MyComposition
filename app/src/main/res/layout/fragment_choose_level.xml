@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ChooseLevelFragment">
+    tools:context=".presentation.ChooseLevelFragment"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/tvTitle"
