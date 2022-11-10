@@ -13,12 +13,12 @@
     <string name="hard_level">Сложный</string>
     <!--Game screen-->
     <string name="question_mark">\?</string>
-    <string name="text_answer_progress">Правильных ответов %1$s (минимум %1$s)</string>
+    <string name="text_answer_progress">Правильных ответов %s (минимум %s)</string>
     <!--Result screen-->
     <string name="game_over">Game over</string>
-    <string name="text_required_answers">Необходимое количество правильных ответов: %1$s</string>
-    <string name="your_score">Ваш счет: %1$s</string>
-    <string name="text_required_percentage">Необходимый процент правильных ответов: %1$s</string>
-    <string name="text_right_percentage">Процент правильных ответов: %1$s</string>
+    <string name="text_required_answers">Необходимое количество правильных ответов: %s</string>
+    <string name="text_your_score">Ваш счет: %s</string>
+    <string name="text_required_percentage">Необходимый процент правильных ответов: %s</string>
+    <string name="text_right_percentage">Процент правильных ответов: %s</string>
     <string name="try_again">Попробовать снова</string>
 </resources>
