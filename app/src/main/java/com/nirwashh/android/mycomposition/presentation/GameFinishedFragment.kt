@@ -27,12 +27,12 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindResult()
+        bindViews()
         binding.btnRetry.setOnClickListener { retryGame() }
     }
 
 
-    private fun bindResult() {
+    private fun bindViews() {
         with(binding) {
             imgResult.setImageResource(setResultImage())
             val requiredAnswers = args.result.gameSettings.minCountOfRightAnswers
