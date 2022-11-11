@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.nirwashh.android.mycomposition.R
+import androidx.navigation.fragment.findNavController
 import com.nirwashh.android.mycomposition.databinding.FragmentChooseLevelBinding
 import com.nirwashh.android.mycomposition.domain.entity.Level
 
@@ -17,7 +17,7 @@ class ChooseLevelFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentChooseLevelBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,20 +47,8 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_container, GameFragment.newInstance(level))
-            .addToBackStack(GameFragment.NAME)
-            .commit()
-    }
-    
-    companion object {
-        const val NAME = "ChooseLevelFragment"
-        fun newInstance(): ChooseLevelFragment {
-            val args = Bundle()
-            val fragment = ChooseLevelFragment()
-            fragment.arguments = args
-            return fragment
-        }
+        findNavController().navigate(
+            ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level)
+        )
     }
 }
